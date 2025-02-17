@@ -14,7 +14,6 @@ export const GoogleDriveClone = (props: {
   parentFolders: (typeof folders_table.$inferSelect)[];
 }) => {
   const { files, folders, parentFolders } = props;
-  console.log({ parentFolders });
 
   const handleUpload = () => {
     alert("Upload functionality would be implemented here");
