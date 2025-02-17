@@ -3,7 +3,7 @@ import {
   files_table as filesSchema,
   folders_table as foldersSchema,
 } from "~/server/db/schema";
-import DriveContents from "../../drive-contents";
+import { GoogleDriveClone as DriveContents } from "../../drive-contents";
 import { eq } from "drizzle-orm";
 
 export default async function GoogleDriveClone(props: {
@@ -26,5 +26,11 @@ export default async function GoogleDriveClone(props: {
     .from(filesSchema)
     .where(eq(filesSchema.parent, parsedFolderId));
 
-  return <DriveContents files={files} folders={folders} />;
+  return (
+    <DriveContents
+      files={files}
+      folders={folders}
+      folderId={parseInt(params.folderId, 10)}
+    />
+  );
 }

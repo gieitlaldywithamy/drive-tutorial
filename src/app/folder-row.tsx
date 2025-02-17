@@ -1,11 +1,9 @@
 import { Folder as FolderIcon } from "lucide-react";
+import Link from "next/link";
 import type { folders_table as Folder } from "~/server/db/schema";
 
-type FolderRowProps = typeof Folder.$inferSelect & {
-  onClick: (id: number) => void;
-};
-
-export const FolderRow = ({ name, id, onClick }: FolderRowProps) => {
+export const FolderRow = ({ name, id }: typeof Folder.$inferSelect) => {
+  console.log({ id });
   return (
     <li
       key={id}
@@ -13,13 +11,13 @@ export const FolderRow = ({ name, id, onClick }: FolderRowProps) => {
     >
       <div className="grid grid-cols-12 items-center gap-4">
         <div className="col-span-6 flex items-center">
-          <button
-            onClick={() => onClick(id)}
+          <Link
+            href={`/f/${id}`}
             className="flex items-center text-gray-100 hover:text-blue-400"
           >
             <FolderIcon className="mr-3" size={20} />
             {name}
-          </button>
+          </Link>
         </div>
         <div className="col-span-3 text-gray-400">Folder</div>
         <div className="col-span-3 text-gray-400">--</div>

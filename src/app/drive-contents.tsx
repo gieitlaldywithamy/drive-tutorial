@@ -1,27 +1,24 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { Folder, FileIcon, Upload, ChevronRight } from "lucide-react";
-import Link from "next/link";
+import { Upload, ChevronRight } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { FileRow } from "./file-row";
 import { FolderRow } from "./folder-row";
 import type { files_table, folders_table } from "~/server/db/schema";
+import Link from "next/link";
 
-export default function GoogleDriveClone(props: {
+export const GoogleDriveClone = (props: {
   files: (typeof files_table.$inferSelect)[];
   folders: (typeof folders_table.$inferSelect)[];
-}) {
-  const { files, folders } = props;
-  const [currentFolder, setCurrentFolder] = useState<number>(0);
-
-  const handleFolderClick = useCallback((folderId: number) => {
-    setCurrentFolder(folderId);
-  }, []);
+  folderId: number;
+}) => {
+  const { files, folders, folderId } = props;
 
   const breadcrumbs = useMemo(() => {
     const breadcrumbs = [];
-    let currentId = currentFolder;
+    let currentId = folderId;
+    console.log({ currentId });
     while (currentId !== 1) {
       const folder = props.folders.find((folder) => folder.id === currentId);
       if (folder) {
@@ -32,7 +29,9 @@ export default function GoogleDriveClone(props: {
       }
     }
     return breadcrumbs;
-  }, [currentFolder, props.folders]);
+  }, [folderId]);
+
+  console.log({ breadcrumbs });
 
   const handleUpload = () => {
     alert("Upload functionality would be implemented here");
@@ -43,23 +42,18 @@ export default function GoogleDriveClone(props: {
       <div className="mx-auto max-w-6xl">
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center">
-            <Button
-              onClick={() => setCurrentFolder(1)}
-              variant="ghost"
-              className="mr-2 text-gray-300 hover:text-white"
-            >
+            <Link href={`/f/1`} className="mr-2 text-gray-300 hover:text-white">
               My Drive
-            </Button>
+            </Link>
             {breadcrumbs.map((folder, index) => (
               <div key={folder.id} className="flex items-center">
                 <ChevronRight className="mx-2 text-gray-500" size={16} />
-                <Button
-                  onClick={() => handleFolderClick(folder.id)}
-                  variant="ghost"
+                <Link
+                  href={`/f/${folder.id}`}
                   className="text-gray-300 hover:text-white"
                 >
                   {folder.name}
-                </Button>
+                </Link>
               </div>
             ))}
           </div>
@@ -81,11 +75,7 @@ export default function GoogleDriveClone(props: {
           </div>
           <ul>
             {folders.map((folder) => (
-              <FolderRow
-                onClick={handleFolderClick}
-                key={folder.id}
-                {...folder}
-              />
+              <FolderRow key={folder.id} {...folder} />
             ))}
             {files.map((file) => (
               <FileRow key={file.id} {...file} />
@@ -95,4 +85,4 @@ export default function GoogleDriveClone(props: {
       </div>
     </div>
   );
-}
+};
