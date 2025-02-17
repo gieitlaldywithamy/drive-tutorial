@@ -33,7 +33,7 @@ export const mockFiles: File[] = [
   },
   {
     id: "5",
-    name: "Project Proposal.docx",
+    name: "lalalala.docx",
     type: "file",
     url: "/files/proposal.docx",
     parent: "1",
