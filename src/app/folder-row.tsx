@@ -1,7 +1,9 @@
 import { Folder as FolderIcon } from "lucide-react";
-import { Folder } from "~/lib/mock-data";
+import type { folders_table as Folder } from "~/server/db/schema";
 
-type FolderRowProps = Folder & { onClick: (id: string) => void };
+type FolderRowProps = typeof Folder.$inferSelect & {
+  onClick: (id: number) => void;
+};
 
 export const FolderRow = ({ name, id, onClick }: FolderRowProps) => {
   return (

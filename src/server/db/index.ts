@@ -29,4 +29,3 @@ conn.addListener("error", (err) => {
 });
 
 export const db = drizzle(conn, { schema });
-console.log({ db });

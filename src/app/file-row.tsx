@@ -1,7 +1,8 @@
-import { Link, FileIcon } from "lucide-react";
-import { File } from "~/lib/mock-data";
+import { FileIcon } from "lucide-react";
+import type { files_table } from "~/server/db/schema";
 
-export const FileRow = ({ id, url, name }: File) => {
+export const FileRow = ({ name, id, url }: typeof files_table.$inferSelect) => {
+  console.log({ name });
   return (
     <li
       key={id}
@@ -9,13 +10,13 @@ export const FileRow = ({ id, url, name }: File) => {
     >
       <div className="grid grid-cols-12 items-center gap-4">
         <div className="col-span-6 flex items-center">
-          <Link
+          <a
             href={url ?? "#"}
             className="flex items-center text-gray-100 hover:text-blue-400"
           >
             <FileIcon className="mr-3" size={20} />
             {name}
-          </Link>
+          </a>
         </div>
         <div className="col-span-3 text-gray-400">File</div>
         <div className="col-span-3 text-gray-400">2 MB</div>
