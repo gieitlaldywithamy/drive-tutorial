@@ -11,27 +11,10 @@ import Link from "next/link";
 export const GoogleDriveClone = (props: {
   files: (typeof files_table.$inferSelect)[];
   folders: (typeof folders_table.$inferSelect)[];
-  folderId: number;
+  parentFolders: (typeof folders_table.$inferSelect)[];
 }) => {
-  const { files, folders, folderId } = props;
-
-  const breadcrumbs = useMemo(() => {
-    const breadcrumbs = [];
-    let currentId = folderId;
-    console.log({ currentId });
-    while (currentId !== 1) {
-      const folder = props.folders.find((folder) => folder.id === currentId);
-      if (folder) {
-        breadcrumbs.unshift(folder);
-        currentId = folder.parent ?? 1;
-      } else {
-        break;
-      }
-    }
-    return breadcrumbs;
-  }, [folderId]);
-
-  console.log({ breadcrumbs });
+  const { files, folders, parentFolders } = props;
+  console.log({ parentFolders });
 
   const handleUpload = () => {
     alert("Upload functionality would be implemented here");
@@ -45,17 +28,20 @@ export const GoogleDriveClone = (props: {
             <Link href={`/f/1`} className="mr-2 text-gray-300 hover:text-white">
               My Drive
             </Link>
-            {breadcrumbs.map((folder, index) => (
-              <div key={folder.id} className="flex items-center">
-                <ChevronRight className="mx-2 text-gray-500" size={16} />
-                <Link
-                  href={`/f/${folder.id}`}
-                  className="text-gray-300 hover:text-white"
-                >
-                  {folder.name}
-                </Link>
-              </div>
-            ))}
+            {parentFolders.map(
+              (folder, index) =>
+                folder.id !== 1 && (
+                  <div key={folder.id} className="flex items-center">
+                    <ChevronRight className="mx-2 text-gray-500" size={16} />
+                    <Link
+                      href={`/f/${folder.id}`}
+                      className="text-gray-300 hover:text-white"
+                    >
+                      {folder.name}
+                    </Link>
+                  </div>
+                ),
+            )}
           </div>
           <Button
             onClick={handleUpload}
