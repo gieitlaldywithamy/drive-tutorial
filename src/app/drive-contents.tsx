@@ -1,12 +1,13 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { Upload, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { FileRow } from "./file-row";
 import { FolderRow } from "./folder-row";
 import type { files_table, folders_table } from "~/server/db/schema";
 import Link from "next/link";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export const GoogleDriveClone = (props: {
   files: (typeof files_table.$inferSelect)[];
@@ -42,13 +43,21 @@ export const GoogleDriveClone = (props: {
                 ),
             )}
           </div>
-          <Button
+          <div>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </div>
+          {/* <Button
             onClick={handleUpload}
             className="bg-blue-600 text-white hover:bg-blue-700"
           >
             <Upload className="mr-2" size={20} />
             Upload
-          </Button>
+          </Button> */}
         </div>
         <div className="rounded-lg bg-gray-800 shadow-xl">
           <div className="border-b border-gray-700 px-6 py-4">
