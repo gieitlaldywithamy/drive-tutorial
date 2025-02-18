@@ -5,20 +5,26 @@ import { ChevronRight } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { FileRow } from "./file-row";
 import { FolderRow } from "./folder-row";
-import type { files_table, folders_table } from "~/server/db/schema";
+import type {
+  DB_FILETYPE,
+  DB_FOLDERTYPE,
+  files_table,
+  folders_table,
+} from "~/server/db/schema";
 import Link from "next/link";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { OurFileRouter } from "./api/uploadthing/core";
+import { UploadButton } from "~/components/ui/uploadbuttons";
+import { useRouter } from "next/navigation";
 
 export const GoogleDriveClone = (props: {
-  files: (typeof files_table.$inferSelect)[];
-  folders: (typeof folders_table.$inferSelect)[];
-  parentFolders: (typeof folders_table.$inferSelect)[];
+  files: DB_FILETYPE[];
+  folders: DB_FOLDERTYPE[];
+  parentFolders: DB_FOLDERTYPE[];
 }) => {
   const { files, folders, parentFolders } = props;
 
-  const handleUpload = () => {
-    alert("Upload functionality would be implemented here");
-  };
+  const navigate = useRouter();
 
   return (
     <div className="min-h-screen bg-gray-900 p-8 text-gray-100">
@@ -51,13 +57,6 @@ export const GoogleDriveClone = (props: {
               <UserButton />
             </SignedIn>
           </div>
-          {/* <Button
-            onClick={handleUpload}
-            className="bg-blue-600 text-white hover:bg-blue-700"
-          >
-            <Upload className="mr-2" size={20} />
-            Upload
-          </Button> */}
         </div>
         <div className="rounded-lg bg-gray-800 shadow-xl">
           <div className="border-b border-gray-700 px-6 py-4">
@@ -76,6 +75,12 @@ export const GoogleDriveClone = (props: {
             ))}
           </ul>
         </div>
+        <UploadButton
+          endpoint="imageUploader"
+          onClientUploadComplete={() => {
+            navigate.refresh();
+          }}
+        />
       </div>
     </div>
   );

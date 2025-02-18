@@ -1,8 +1,11 @@
 import { Folder as FolderIcon } from "lucide-react";
 import Link from "next/link";
-import type { folders_table as Folder } from "~/server/db/schema";
+import type {
+  DB_FOLDERTYPE,
+  folders_table as Folder,
+} from "~/server/db/schema";
 
-export const FolderRow = ({ name, id }: typeof Folder.$inferSelect) => {
+export const FolderRow = ({ name, id }: DB_FOLDERTYPE) => {
   console.log({ id });
   return (
     <li

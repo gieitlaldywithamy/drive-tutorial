@@ -1,8 +1,8 @@
 import { FileIcon } from "lucide-react";
 import Link from "next/link";
-import type { files_table } from "~/server/db/schema";
+import type { DB_FILETYPE, files_table } from "~/server/db/schema";
 
-export const FileRow = ({ name, id, url }: typeof files_table.$inferSelect) => {
+export const FileRow = ({ name, id, url }: DB_FILETYPE) => {
   console.log({ name });
   return (
     <li
