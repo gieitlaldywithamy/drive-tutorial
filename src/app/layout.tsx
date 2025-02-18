@@ -9,6 +9,7 @@ import {
 } from "@clerk/nextjs";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import { PostHogProvider } from "./_providers/posthog";
 
 export const metadata: Metadata = {
   title: "Google Drive tutorial",
@@ -22,7 +23,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={`${GeistSans.variable}`}>
-        <body>{children}</body>
+        <body>
+          {" "}
+          <PostHogProvider>{children}</PostHogProvider>
+        </body>
       </html>
     </ClerkProvider>
   );
