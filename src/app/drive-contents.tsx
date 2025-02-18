@@ -21,8 +21,9 @@ export const GoogleDriveClone = (props: {
   files: DB_FILETYPE[];
   folders: DB_FOLDERTYPE[];
   parentFolders: DB_FOLDERTYPE[];
+  currentFolderId: number;
 }) => {
-  const { files, folders, parentFolders } = props;
+  const { files, folders, parentFolders, currentFolderId } = props;
 
   const navigate = useRouter();
 
@@ -80,6 +81,7 @@ export const GoogleDriveClone = (props: {
           onClientUploadComplete={() => {
             navigate.refresh();
           }}
+          input={{ folderId: currentFolderId }}
         />
       </div>
     </div>
